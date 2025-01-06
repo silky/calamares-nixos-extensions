@@ -45,6 +45,11 @@ cfgbootefi = """  # Bootloader.
 
 """
 
+cfglinuxkernel = """  # Linux kernel.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+"""
+
 cfgbootbios = """  # Bootloader.
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "@@bootdev@@";
@@ -412,6 +417,8 @@ def run():
         catenate(variables, "bootdev", bootdev)
     else:
         cfg += cfgbootnone
+
+    cfg += cfglinuxkernel
 
     # Setup encrypted swap devices. nixos-generate-config doesn't seem to notice them.
     for part in gs.value("partitions"):
